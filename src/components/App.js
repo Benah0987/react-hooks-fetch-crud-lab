@@ -5,6 +5,7 @@ import QuestionList from "./QuestionList";
 
 function App() {
   const [page, setPage] = useState("List");
+  //keesp track of whether the form is being displayed
 
   return (
     <main>

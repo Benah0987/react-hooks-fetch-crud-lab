@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import swal from 'sweetalert'
 
+//handling the POST Method
 function QuestionForm(props) {
+  //adding a state step 1
   const [formData, setFormData] = useState({
     prompt: "",
     answer1: "",
@@ -19,12 +22,37 @@ function QuestionForm(props) {
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(formData);
+  
+    fetch('http://localhost:4000/questions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+      // Displaying a success message
+      swal({
+        title: "Success!",
+        text: `Question '${data.prompt}' has been posted.`,
+        icon: "success",
+        button: "OK",
+      }).then(() => {
+        // Redirect to homepage after clicking OK button
+        window.location.href = "/";
+      });
+    })
+    .catch(error => {
+      // Handle any errors
+    });
   }
+  
 
   return (
     <section>
       <h1>New Question</h1>
+      {/* the handleSubmit responsible sends data to the API*/}
       <form onSubmit={handleSubmit}>
         <label>
           Prompt:
@@ -69,6 +97,7 @@ function QuestionForm(props) {
             name="answer4"
             value={formData.answer4}
             onChange={handleChange}
+            
           />
         </label>
         <label>
@@ -84,7 +113,7 @@ function QuestionForm(props) {
             <option value="3">{formData.answer4}</option>
           </select>
         </label>
-        <button type="submit">Add Question</button>
+        <button type="submit" on>Add Question</button>
       </form>
     </section>
   );

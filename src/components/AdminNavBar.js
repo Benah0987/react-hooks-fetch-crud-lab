@@ -1,5 +1,6 @@
 import React from "react";
 
+//parent too the QuestionLIst
 function AdminNavBar({ onChangePage }) {
   return (
     <nav>
